@@ -1,0 +1,70 @@
+<ion-content class="ion-padding">
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col>
+        <ion-card color="secondary">
+          <ion-card-header>
+            <ion-card-title>ค้นหาร้านอาหาร</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <label>ร้านอาหาร ณ ที่ : </label>
+            <input #search type="text" class="my-search-box"
+              placeholder="Search Location" type="text"/>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <br><br><br>
+
+    <ion-row>
+      <ion-col size="12" size-sm="3" *ngFor="let item of restaurantList; let i = index">
+        <ion-card>
+          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+          <ion-card-header>
+            <ion-card-title>{{item.name}}</ion-card-title>
+            <ion-card-subtitle>Rating: {{item.rating}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row><ion-col class="text-left"><b>Latitude:</b> {{item.lat}}</ion-col></ion-row>
+            <ion-row><ion-col class="text-left"><b>Latitude:</b> {{item.lng}}</ion-col></ion-row>
+          </ion-card-content>
+          <div class="text-left">
+            <ion-button fill="clear" (click)="setOpen(true, item.lat, item.lng)">แผนที่</ion-button>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div style="text-align: center;">
+    <ion-icon name="bandage-outline" *ngIf="isShow"></ion-icon>
+    <ion-icon name="bandage-outline" *ngIf="isShow"></ion-icon>
+    <ion-icon name="bandage-outline" *ngIf="isShow"></ion-icon>
+    <ion-icon name="bandage-outline" *ngIf="isShow"></ion-icon>
+  </div>
+</ion-content>
+
+
+
+
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>แผนที่</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false, 0, 0)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <p>
+        <google-map #myGoogleMap height="500px" width="100%" [zoom]="zoom" [center]="center" [options]="options">
+          <map-marker *ngFor="let markerPosition of markerPositions"
+              [position]="markerPosition"></map-marker>
+        </google-map>
+      </p>
+    </ion-content>
+  </ng-template>
+</ion-modal>
